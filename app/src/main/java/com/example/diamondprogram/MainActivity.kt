@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -33,12 +35,16 @@ fun DiamondInputScreen() {
   var input by remember { mutableStateOf("") }
   var diamondOutput by remember { mutableStateOf("") }
 
+  // Use verticalScroll to allow scrolling
+  val scrollState = rememberScrollState()
+
   Column(
     modifier = Modifier
       .fillMaxSize()
-      .padding(16.dp),
+      .padding(16.dp)
+      .verticalScroll(scrollState), // Enable vertical scrolling
     horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center
+    verticalArrangement = Arrangement.Top // Align to the top
   ) {
     TextField(
       value = input,
@@ -54,13 +60,11 @@ fun DiamondInputScreen() {
     }
     Spacer(modifier = Modifier.height(16.dp))
     // Center the diamond output
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-      Text(
-        text = diamondOutput,
-        textAlign = TextAlign.Center,
-        modifier = Modifier.padding(16.dp)
-      )
-    }
+    Text(
+      text = diamondOutput,
+      textAlign = TextAlign.Center,
+      modifier = Modifier.padding(16.dp)
+    )
   }
 }
 
@@ -73,68 +77,26 @@ fun generateDiamond(input: String): String {
 
   if (evenNumber) {
     // For even numbers
-    for (i in 0 until 1) {
-      val spaceCount = number / 2 - i
-      val starPoint = 1
+    for (i in 0 until number / 2) {
+      val spaceCount = number / 2 - i - 1
+      val starCount = 2 * (i + 1)
 
       // Print spaces
-      for (j in 0 until spaceCount) {
-        stringBuilder.append("  ")
-      }
-
-      // Print star
-      for (j in 0 until starPoint) {
-        stringBuilder.append("  *")
-      }
+      stringBuilder.append(" ".repeat(spaceCount))
+      // Print stars with spaces in between
+      stringBuilder.append("* ".repeat(starCount).trimEnd())
       stringBuilder.appendLine()
+    }
 
-      for (i in 1 until number / 2 + 1) {
-        val spaceCount = number / 2 - i
-        val starCount = 2 * (i + 1) - 2
+    for (i in number / 2 - 1 downTo 0) {
+      val spaceCount = number / 2 - i - 1
+      val starCount = 2 * (i + 1)
 
-        // Print spaces
-        for (j in 0 until spaceCount) {
-          stringBuilder.append("  ")
-        }
-
-        // Print stars
-        for (j in 0 until starCount) {
-          stringBuilder.append(" *")
-        }
-        stringBuilder.appendLine()
-      }
-
-      for (i in 0 until number / 2 - 1) {
-        val spaceCount = i + 1
-        val starCount = number - 2 * (i + 1)
-
-        // Print spaces
-        for (j in 0 until spaceCount) {
-          stringBuilder.append("  ")
-        }
-
-        // Print stars
-        for (j in 0 until starCount) {
-          stringBuilder.append(" *")
-        }
-        stringBuilder.appendLine()
-      }
-
-      for (i in 0 until 1) {
-        val spaceCount = number / 2 - i
-        val bottomStar = 1
-
-        // Print spaces
-        for (j in 1 until spaceCount) {
-          stringBuilder.append("  ")
-        }
-
-        // Print star
-        for (j in 0 until bottomStar) {
-          stringBuilder.append("  *")
-        }
-        stringBuilder.appendLine()
-      }
+      // Print spaces
+      stringBuilder.append(" ".repeat(spaceCount))
+      // Print stars with spaces in between
+      stringBuilder.append("* ".repeat(starCount).trimEnd())
+      stringBuilder.appendLine()
     }
   } else {
     // For odd numbers
@@ -143,33 +105,23 @@ fun generateDiamond(input: String): String {
       val oddStarCount = 2 * i + 1
 
       // Print spaces
-      for (j in 0 until oddSpaceCount) {
-        stringBuilder.append(" ")
-      }
-      for (j in 0 until oddStarCount) {
-        stringBuilder.append("*")
-      }
+      stringBuilder.append(" ".repeat(oddSpaceCount))
+      // Print stars without spaces
+      stringBuilder.append("* ".repeat(oddStarCount).trimEnd())
       stringBuilder.appendLine()
     }
 
-    for (i in 0 until number / 2) {
-      val oddSpaceCount = i + 1
-      val oddStarCount = number - 2 * (i + 1)
+    for (i in number / 2 - 1 downTo 0) {
+      val oddSpaceCount = number / 2 - i
+      val oddStarCount = 2 * i + 1
 
       // Print spaces
-      for (j in 0 until oddSpaceCount) {
-        stringBuilder.append(" ")
-      }
-
-      // Print stars
-      for (j in 0 until oddStarCount) {
-        stringBuilder.append("*")
-      }
+      stringBuilder.append(" ".repeat(oddSpaceCount))
+      // Print stars without spaces
+      stringBuilder.append("* ".repeat(oddStarCount).trimEnd())
       stringBuilder.appendLine()
     }
   }
 
   return stringBuilder.toString().trimEnd() // Trim the last newline
 }
-
-
