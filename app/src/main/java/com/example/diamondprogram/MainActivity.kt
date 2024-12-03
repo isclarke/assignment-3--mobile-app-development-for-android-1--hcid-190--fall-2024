@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             DIamondProgramTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = "Enter the size of your diamond",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
