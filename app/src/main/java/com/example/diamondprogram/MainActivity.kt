@@ -44,9 +44,9 @@ fun DiamondInputScreen() {
     modifier = Modifier
       .fillMaxSize()
       .padding(16.dp)
-      .verticalScroll(verticalScrollState), // Enable vertical scrolling
+      .verticalScroll(verticalScrollState), //vertical scrolling
     horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Top // Align to the top
+    verticalArrangement = Arrangement.Top
   ) {
     TextField(
       value = input,
@@ -61,7 +61,7 @@ fun DiamondInputScreen() {
       Text("Generate Diamond")
     }
     Spacer(modifier = Modifier.height(16.dp))
-    // Wrap the diamond output in a horizontally scrollable Row
+    // make scrollable horizontally
     Row(
       modifier = Modifier
         .fillMaxWidth()
@@ -92,7 +92,6 @@ fun generateDiamond(input: String): String {
     stringBuilder.append("  ".repeat(topSpaces) + "  *")
     stringBuilder.appendLine()
 
-    // Top half of the diamond (excluding the middle row)
     for (i in 1..number / 2) {
       val spaceCount = number / 2 - i
       val starCount = 2 * (i + 1) - 2
@@ -116,18 +115,17 @@ fun generateDiamond(input: String): String {
       stringBuilder.appendLine()
     }
 
-    // Bottom single star
+    // Bottom  star
     stringBuilder.append("  ".repeat(topSpaces) + "  *")
     stringBuilder.appendLine()
+
+    //odd variation
   } else {
-    // Odd number logic (unchanged)
     for (i in 0 until number / 2 + 1) {
       val spaceCount = number / 2 - i
       val starCount = 2 * i + 1
 
-      // Print spaces
       stringBuilder.append(" ".repeat(spaceCount))
-      // Print stars with spaces between them
       stringBuilder.append("* ".repeat(starCount).trimEnd())
       stringBuilder.appendLine()
     }
@@ -138,11 +136,10 @@ fun generateDiamond(input: String): String {
 
       // Print spaces
       stringBuilder.append(" ".repeat(spaceCount))
-      // Print stars with spaces between them
       stringBuilder.append("* ".repeat(starCount).trimEnd())
       stringBuilder.appendLine()
     }
   }
 
-  return stringBuilder.toString().trimEnd() // Trim the last newline
+  return stringBuilder.toString().trimEnd()
 }
