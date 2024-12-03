@@ -84,52 +84,62 @@ fun generateDiamond(input: String): String {
   if (number <= 0) return "Please enter a positive number"
 
   val stringBuilder = StringBuilder()
-  val evenNumber = number % 2 == 0
+  val isEven = number % 2 == 0
 
-  if (evenNumber) {
-    // For even numbers
-    for (i in 0 until number / 2) {
-      val spaceCount = number / 2 - i - 1
-      val starCount = 2 * (i + 1)
+  if (isEven) {
+    // Top single star
+    val topSpaces = number / 2 - 1
+    stringBuilder.append("  ".repeat(topSpaces) + "  *")
+    stringBuilder.appendLine()
+
+    // Top half of the diamond (excluding the middle row)
+    for (i in 1..number / 2) {
+      val spaceCount = number / 2 - i
+      val starCount = 2 * (i + 1) - 2
 
       // Print spaces
-      stringBuilder.append(" ".repeat(spaceCount))
-      // Print stars with spaces in between
-      stringBuilder.append("* ".repeat(starCount).trimEnd())
+      stringBuilder.append("  ".repeat(spaceCount))
+      // Print stars with spaces between them
+      stringBuilder.append(" *".repeat(starCount))
       stringBuilder.appendLine()
     }
 
-    for (i in number / 2 - 1 downTo 0) {
-      val spaceCount = number / 2 - i - 1
-      val starCount = 2 * (i + 1)
+    // Bottom half of the diamond (excluding the single bottom star)
+    for (i in 0 until number / 2 - 1) {
+      val spaceCount = i + 1
+      val starCount = number - 2 * (i + 1)
 
       // Print spaces
-      stringBuilder.append(" ".repeat(spaceCount))
-      // Print stars with spaces in between
-      stringBuilder.append("* ".repeat(starCount).trimEnd())
+      stringBuilder.append("  ".repeat(spaceCount))
+      // Print stars with spaces between them
+      stringBuilder.append(" *".repeat(starCount))
       stringBuilder.appendLine()
     }
+
+    // Bottom single star
+    stringBuilder.append("  ".repeat(topSpaces) + "  *")
+    stringBuilder.appendLine()
   } else {
-    // For odd numbers
+    // Odd number logic (unchanged)
     for (i in 0 until number / 2 + 1) {
-      val oddSpaceCount = number / 2 - i
-      val oddStarCount = 2 * i + 1
+      val spaceCount = number / 2 - i
+      val starCount = 2 * i + 1
 
       // Print spaces
-      stringBuilder.append(" ".repeat(oddSpaceCount))
-      // Print stars without spaces
-      stringBuilder.append("* ".repeat(oddStarCount).trimEnd())
+      stringBuilder.append(" ".repeat(spaceCount))
+      // Print stars with spaces between them
+      stringBuilder.append("* ".repeat(starCount).trimEnd())
       stringBuilder.appendLine()
     }
 
     for (i in number / 2 - 1 downTo 0) {
-      val oddSpaceCount = number / 2 - i
-      val oddStarCount = 2 * i + 1
+      val spaceCount = number / 2 - i
+      val starCount = 2 * i + 1
 
       // Print spaces
-      stringBuilder.append(" ".repeat(oddSpaceCount))
-      // Print stars without spaces
-      stringBuilder.append("* ".repeat(oddStarCount).trimEnd())
+      stringBuilder.append(" ".repeat(spaceCount))
+      // Print stars with spaces between them
+      stringBuilder.append("* ".repeat(starCount).trimEnd())
       stringBuilder.appendLine()
     }
   }
