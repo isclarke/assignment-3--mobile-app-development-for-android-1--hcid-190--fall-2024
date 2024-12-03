@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,8 +15,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.diamondprogram.ui.theme.DIamondProgramTheme
 
 class MainActivity : ComponentActivity() {
@@ -35,14 +36,15 @@ fun DiamondInputScreen() {
   var input by remember { mutableStateOf("") }
   var diamondOutput by remember { mutableStateOf("") }
 
-  // Use verticalScroll to allow scrolling
-  val scrollState = rememberScrollState()
+  // Use vertical and horizontal scroll states
+  val verticalScrollState = rememberScrollState()
+  val horizontalScrollState = rememberScrollState()
 
   Column(
     modifier = Modifier
       .fillMaxSize()
       .padding(16.dp)
-      .verticalScroll(scrollState), // Enable vertical scrolling
+      .verticalScroll(verticalScrollState), // Enable vertical scrolling
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.Top // Align to the top
   ) {
@@ -59,12 +61,21 @@ fun DiamondInputScreen() {
       Text("Generate Diamond")
     }
     Spacer(modifier = Modifier.height(16.dp))
-    // Center the diamond output
-    Text(
-      text = diamondOutput,
-      textAlign = TextAlign.Center,
-      modifier = Modifier.padding(16.dp)
-    )
+    // Wrap the diamond output in a horizontally scrollable Row
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .horizontalScroll(horizontalScrollState) // Enable horizontal scrolling
+        .padding(16.dp),
+      horizontalArrangement = Arrangement.Center
+    ) {
+      Text(
+        text = diamondOutput,
+        textAlign = TextAlign.Center,
+        fontSize = 14.sp,
+        modifier = Modifier.align(Alignment.CenterVertically)
+      )
+    }
   }
 }
 
