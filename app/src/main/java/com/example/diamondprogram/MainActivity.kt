@@ -84,31 +84,29 @@ fun generateDiamond(input: String): String {
   if (number <= 0) return "Please enter a positive number"
 
   val stringBuilder = StringBuilder()
-  val isEven = number % 2 == 0
+  val evenNumber = number % 2 == 0
 
-  if (isEven) {
-    // For even numbers: Create a symmetric diamond
-    // Top half of the diamond (including the middle)
+  if (evenNumber) {
+    // For even numbers
     for (i in 0 until number / 2) {
       val spaceCount = number / 2 - i - 1
-      val starCount = 2 * i + 1
+      val starCount = 2 * (i + 1)
 
       // Print spaces
       stringBuilder.append(" ".repeat(spaceCount))
-      // Print stars
-      stringBuilder.append("*".repeat(starCount))
+      // Print stars with spaces in between
+      stringBuilder.append("* ".repeat(starCount).trimEnd())
       stringBuilder.appendLine()
     }
 
-    // Bottom half of the diamond (excluding the middle)
-    for (i in number / 2 - 2 downTo 0) {
+    for (i in number / 2 - 1 downTo 0) {
       val spaceCount = number / 2 - i - 1
-      val starCount = 2 * i + 1
+      val starCount = 2 * (i + 1)
 
       // Print spaces
       stringBuilder.append(" ".repeat(spaceCount))
-      // Print stars
-      stringBuilder.append("*".repeat(starCount))
+      // Print stars with spaces in between
+      stringBuilder.append("* ".repeat(starCount).trimEnd())
       stringBuilder.appendLine()
     }
   } else {
