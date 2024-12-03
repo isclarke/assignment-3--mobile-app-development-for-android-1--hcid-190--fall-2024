@@ -12,38 +12,49 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.diamondprogram.ui.theme.DIamondProgramTheme
 
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            DIamondProgramTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Enter the size of your diamond",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    enableEdgeToEdge()
+    setContent {
+      DIamondProgramTheme {
+        DiamondInputScreen()
+      }
     }
+  }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "$name",
-        modifier = modifier
+fun DiamondInputScreen() {
+  var input by remember { mutableStateOf("") }
+  var diamondOutput by remember { mutableStateOf("") }
+
+  Column(
+    modifier = Modifier
+      .fillMaxSize()
+      .padding(16.dp),
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center
+  ) {
+    TextField(
+      value = input,
+      onValueChange = { input = it },
+      label = { Text("Enter a positive number") },
+      modifier = Modifier.fillMaxWidth()
     )
+    Spacer(modifier = Modifier.height(16.dp))
+    Button(onClick = {
+      diamondOutput = generateDiamond(input)
+    }) {
+      Text("Generate Diamond")
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    Text(text = diamondOutput, modifier = Modifier.fillMaxWidth())
+  }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DIamondProgramTheme {
-        Greeting("Android")
-    }
-}
+
